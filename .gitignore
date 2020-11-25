@@ -1,0 +1,28 @@
+# Python
+*.pyc
+__pycache__/
+.mypy_cache/
+*.egg-info*
+dist/
+env/
+venv/
+venv3/
+.venv/
+.pytest_cache
+
+# LaTeX
+/*.aux
+/*.fdb_latexmk
+/*.fls
+/*.log
+/*.out
+/*.pdf
+/*.tex
+
+# Text editors and IDEs
+*~
+*.lock
+*.swp
+.vscode
+.ropeproject/
+.vscode/
