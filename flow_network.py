@@ -22,7 +22,7 @@ class FlowNetwork:
         self.capacity = np.zeros((vertices, vertices), dtype=int)
 
     def add_edge(self, src: int, dst: int, cap: int):
-        """Adds a directed edge src -> dst with the given capacity."""
+        """Add a directed edge src -> dst with the given capacity."""
         assert cap > 0, \
             f'Capacity {cap} assigned to {src} -> {dst} is non-positive.'
         assert src != self.sink, 'Sink cannot have outgoing capacity.'
@@ -49,7 +49,7 @@ class FlowNetwork:
 
     def _find_augmenting_path(self, flow: np.ndarray) \
             -> Tuple[int, List[int]]:
-        """Finds an augmenting path and new flow. Throws if non-existent."""
+        """Find an augmenting path and new flow. Throws if non-existent."""
         residual = self.capacity - flow
         queue = deque((self.source,))
         predecessor = np.full(self.vertices, -1, dtype=int)

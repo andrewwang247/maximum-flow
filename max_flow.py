@@ -5,7 +5,7 @@ Copyright 2020. Siwei Wang.
 """
 from typing import List
 import numpy as np  # type: ignore
-import click
+from click import command, option, Path
 from flow_network import FlowNetwork
 # pylint: disable=no-value-for-parameter
 
@@ -13,44 +13,41 @@ from flow_network import FlowNetwork
 def create_network(filename: str) -> FlowNetwork:
     """Create a network from given DIMACS file."""
     num_arcs = 0
-    network_exists = False
-    nodes = -1
-    source_sink: List[int] = [-1, -1]
     with open(filename) as fin:
+        first_tokens: List[str] = fin.readline().strip().split()
+        assert len(first_tokens) == 4
+        assert first_tokens[0] == 'p'
+        assert first_tokens[1] == 'max'
+        nodes = int(first_tokens[2])
+        arcs = int(first_tokens[3])
+        second_tokens: List[str] = fin.readline().strip().split()
+        assert len(second_tokens) == 3
+        assert second_tokens[2] == 's'
+        source = int(second_tokens[1])
+        third_tokens: List[str] = fin.readline().strip().split()
+        assert len(third_tokens) == 3
+        assert third_tokens[2] == 't'
+        sink = int(third_tokens[1])
+        network = FlowNetwork(nodes, source, sink)
         for line in fin:
-            if not network_exists and \
-                    all(arg != -1 for arg in (nodes, *source_sink)):
-                network = FlowNetwork(nodes, source_sink[0], source_sink[1])
-                network_exists = True
             tokens: List[str] = line.strip().split()
             identifier = tokens[0]
-            if identifier == 'c':
-                continue
-            if identifier == 'p':
-                assert tokens[1] == 'max'
-                assert len(tokens) == 4
-                nodes = int(tokens[2])
-                arcs = int(tokens[3])
-            elif identifier == 'n':
-                assert len(tokens) == 3
-                idx = ('s', 't').index(tokens[2])
-                source_sink[idx] = int(tokens[1])
-            elif identifier == 'a':
+            assert identifier in ('a', 'c'), \
+                f'Unrecognized identifer: {identifier}'
+            if identifier == 'a':
                 assert len(tokens) == 4
                 network.add_edge(*[int(token) for token in tokens[1:]])
                 num_arcs += 1
-            else:
-                raise RuntimeError(f'Designator {identifier} is unknown.')
-    assert arcs == num_arcs, 'Incorrect number of arcs specified.'
+    assert arcs == num_arcs, f'Expected {arcs} arcs, but got {num_arcs}.'
     return network
 
 
-@click.command()
-@click.option('--filename', '-f', type=click.Path(exists=True,
-                                                  file_okay=True,
-                                                  dir_okay=False,
-                                                  readable=True),
-              required=True, help='Path to flow network specification.')
+@command()
+@option('--filename', '-f', type=Path(exists=True,
+                                      file_okay=True,
+                                      dir_okay=False,
+                                      readable=True),
+        required=True, help='Path to flow network specification.')
 def main(filename: str):
     """Compute maximum flow on flow network."""
     network = create_network(filename)
@@ -58,7 +55,8 @@ def main(filename: str):
           f'and {np.count_nonzero(network.capacity)} arcs.')
     max_flow, flow_matrix = network.maximum_flow()
     print(f'Maximum flow = {max_flow}')
-    for src, dst in zip(*np.nonzero(network.capacity)):
+    dim_1, dim_2 = np.nonzero(network.capacity)
+    for src, dst in zip(dim_1, dim_2):
         flow = flow_matrix[src, dst]
         capacity = network.capacity[src, dst]
         print(f'{src} -> {dst} : {flow} / {capacity}')
