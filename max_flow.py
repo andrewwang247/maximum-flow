@@ -13,7 +13,7 @@ from flow_network import FlowNetwork
 def create_network(filename: str) -> FlowNetwork:
     """Create a network from given DIMACS file."""
     num_arcs = 0
-    with open(filename) as fin:
+    with open(filename, encoding='UTF-8') as fin:
         first_tokens: List[str] = fin.readline().strip().split()
         assert len(first_tokens) == 4
         assert first_tokens[0] == 'p'
