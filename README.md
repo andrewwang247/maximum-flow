@@ -21,7 +21,7 @@ The program implements the [Edmonds-Karp algorithm](https://en.wikipedia.org/wik
 Graph file should be in [DIMACS format](http://lpsolve.sourceforge.net/5.5/DIMACS_maxf.htm) for networks. See the `Tests` directory for examples. Running the first test case, we get the following output.
 
 ```text
-$ python max_flow.py -f Tests/test_0.txt
+$ python3 max_flow.py -f Tests/test_0.txt
 Received network with 6 nodes and 9 arcs.
 Maximum flow = 10
 0 -> 1 : 7 / 7
