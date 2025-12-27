@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2020 Siwei Wang.
+# Copyright 2026. Andrew Wang.
 # Run static checks on all Python code.
 
 set -Euo pipefail

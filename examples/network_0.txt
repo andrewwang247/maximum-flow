@@ -1,4 +1,6 @@
+c Network has 6 nodes and 9 arcs
 p max 6 9
+c Source at 0 and sink at 5
 n 0 s
 n 5 t
 a 0 1 7
