@@ -12,7 +12,7 @@ from parse import create_network
 
 def _get_tests(solutions: List[int]) -> List[Tuple[str, int]]:
     """Get parametrized tests for pytest."""
-    files: List[str] = [path.join('examples', f'network_{idx}.txt')
+    files: List[str] = [path.join('tst', f'network_{idx}.txt')
                         for idx in range(len(solutions))]
     assert all(path.isfile(filename) for filename in files)
     assert all(solution > 0 for solution in solutions)

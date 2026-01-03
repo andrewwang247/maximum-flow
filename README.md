@@ -18,10 +18,10 @@ The program implements the [Edmonds-Karp algorithm](https://en.wikipedia.org/wik
 
 ## File Format
 
-Graph file should be in [DIMACS format](http://lpsolve.sourceforge.net/5.5/DIMACS_maxf.htm) for networks. See the `examples` directory for examples. Running the first test case, we get the following output.
+Graph file should be in [DIMACS format](http://lpsolve.sourceforge.net/5.5/DIMACS_maxf.htm) for networks. See the `tst` directory for test cases. Running the first test case, we get the following output.
 
 ```text
-$ python3 max_flow.py -f examples/network_0.txt
+$ python3 max_flow.py -f tst/network_0.txt
 Received network with 6 nodes and 9 arcs.
 Maximum flow = 10
 0 -> 1 : 7 / 7
@@ -39,4 +39,4 @@ The output line `u -> v : f / c` should be interpreted as saying that the direct
 
 ## Testing
 
-Run `pytest` to test the program on inputs in the `examples` directory. All properties of a valid flow are verified and the maximum flow rate is checked.
+Run `pytest` to test the program on inputs in the `tst` directory. All properties of a valid flow are verified and the maximum flow rate is checked.
