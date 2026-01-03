@@ -3,9 +3,9 @@ Representation of flow network.
 
 Copyright 2020. Siwei Wang.
 """
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 from collections import deque
-import numpy as np  # type: ignore
+import numpy as np
 
 
 class FlowNetwork:
@@ -33,6 +33,20 @@ class FlowNetwork:
             f'Reverse capacity of {dst} -> {src} is non-zero.'
         self.capacity[src, dst] = cap
 
+    def maximum_flow(self) -> Tuple[int, np.ndarray]:
+        """Compute maximum flow on the network and flow matrix."""
+        max_flow = 0
+        flow = np.zeros((self.vertices, self.vertices), dtype=int)
+        while True:
+            optional_return = self._find_augmenting_path(flow)
+            if optional_return is None:
+                return max_flow, flow
+            new_flow, path = optional_return
+            max_flow += new_flow
+            for src, dst in zip(path, path[1:]):
+                flow[src, dst] += new_flow
+                flow[dst, src] -= new_flow
+
     def _gen_path(self, predecessor: np.ndarray) -> List[int]:
         """Return the path source -> sink given by predecessor list."""
         next_vertex = self.sink
@@ -44,11 +58,8 @@ class FlowNetwork:
         path.reverse()
         return path
 
-    class PathError(Exception):
-        """Custom exception for augmenting paths."""
-
     def _find_augmenting_path(self, flow: np.ndarray) \
-            -> Tuple[int, List[int]]:
+            -> Optional[Tuple[int, List[int]]]:
         """Find an augmenting path and new flow. Throws if non-existent."""
         residual = self.capacity - flow
         queue = deque((self.source,))
@@ -69,18 +80,4 @@ class FlowNetwork:
                                         dst in zip(path, path[1:]))
                     return new_flow, path
                 queue.append(vert)
-        raise self.PathError('No augmenting path found.')
-
-    def maximum_flow(self) -> Tuple[int, np.ndarray]:
-        """Compute maximum flow on the network and flow matrix."""
-        max_flow = 0
-        flow = np.zeros((self.vertices, self.vertices), dtype=int)
-        while True:
-            try:
-                new_flow, path = self._find_augmenting_path(flow)
-                max_flow += new_flow
-                for src, dst in zip(path, path[1:]):
-                    flow[src, dst] += new_flow
-                    flow[dst, src] -= new_flow
-            except self.PathError:
-                return max_flow, flow
+        return None

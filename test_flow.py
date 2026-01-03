@@ -6,7 +6,7 @@ Copyright 2026. Andrew Wang.
 from os import path
 from typing import List, Tuple
 from pytest import mark
-import numpy as np  # type: ignore
+import numpy as np
 from parse import create_network
 
 
@@ -15,10 +15,11 @@ def _get_tests(solutions: List[int]) -> List[Tuple[str, int]]:
     files: List[str] = [path.join('examples', f'network_{idx}.txt')
                         for idx in range(len(solutions))]
     assert all(path.isfile(filename) for filename in files)
+    assert all(solution > 0 for solution in solutions)
     return list(zip(files, solutions))
 
 
-@mark.parametrize('filename,expected_max', _get_tests([10, 5, 7, 6]))
+@mark.parametrize('filename,expected_max', _get_tests([10, 5, 7, 6, 15]))
 def test_flow(filename: str, expected_max: int):
     """Test network flow on filename."""
     network = create_network(filename)

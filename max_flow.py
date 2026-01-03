@@ -3,7 +3,7 @@ Compute maximum flow on flow network.
 
 Copyright 2026. Andrew Wang.
 """
-import numpy as np  # type: ignore
+import numpy as np
 from click import command, option, Path
 from parse import create_network
 # pylint: disable=no-value-for-parameter
