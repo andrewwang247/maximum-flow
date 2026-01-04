@@ -3,9 +3,12 @@ Representation of flow network.
 
 Copyright 2020. Siwei Wang.
 """
+import logging
 from typing import Tuple, List, Optional
 from collections import deque
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 
 class FlowNetwork:
@@ -16,6 +19,11 @@ class FlowNetwork:
         assert 0 <= source < vertices, f'Source {source} is out of bounds.'
         assert 0 <= sink < vertices, f'Sink {sink} is out of bounds.'
         assert source != sink, 'Source and sink cannot be the same vertex.'
+        logger.info(
+            'Constructed network with %d vertices flowing from %d to %d',
+            vertices,
+            source,
+            sink)
         self.vertices = vertices
         self.source = source
         self.sink = sink
@@ -31,6 +39,7 @@ class FlowNetwork:
             f'Capacity of {src} -> {dst} has already been assigned.'
         assert self.capacity[dst, src] == 0, \
             f'Reverse capacity of {dst} -> {src} is non-zero.'
+        logger.info('Adding edge %d -> %d with capacity %d', src, dst, cap)
         self.capacity[src, dst] = cap
 
     def maximum_flow(self) -> Tuple[int, np.ndarray]:
@@ -42,6 +51,10 @@ class FlowNetwork:
             if optional_return is None:
                 return max_flow, flow
             new_flow, path = optional_return
+            logger.info(
+                'Found path %s that augments flow by %d',
+                path,
+                new_flow)
             max_flow += new_flow
             for src, dst in zip(path, path[1:]):
                 flow[src, dst] += new_flow
@@ -52,7 +65,7 @@ class FlowNetwork:
         next_vertex = self.sink
         path: List[int] = []
         while next_vertex != self.source:
-            path.append(next_vertex)
+            path.append(int(next_vertex))
             next_vertex = predecessor[next_vertex]
         path.append(self.source)
         path.reverse()
@@ -60,7 +73,7 @@ class FlowNetwork:
 
     def _find_augmenting_path(self, flow: np.ndarray) \
             -> Optional[Tuple[int, List[int]]]:
-        """Find an augmenting path and new flow. Throws if non-existent."""
+        """Return augmenting path and new flow or None if non-existent."""
         residual = self.capacity - flow
         queue = deque((self.source,))
         predecessor = np.full(self.vertices, -1, dtype=int)

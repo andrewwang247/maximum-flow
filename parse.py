@@ -3,8 +3,11 @@ Parse DIMACS networks.
 
 Copyright 2026. Andrew Wang.
 """
+import logging
 from typing import List, TextIO
 from flow_network import FlowNetwork
+
+logger = logging.getLogger(__name__)
 
 
 def _get_next_line(fin: TextIO) -> List[str]:

@@ -3,7 +3,7 @@
 Efficient computation of a flow that maximizes flow rate on a [flow network](https://en.wikipedia.org/wiki/Flow_network) from a source to a sink. See <https://en.wikipedia.org/wiki/Maximum_flow_problem> for more details.
 
 ```text
-Usage: max_flow.py [OPTIONS]
+Usage: main.py [OPTIONS]
 
   Compute maximum flow on flow network.
 
@@ -21,7 +21,7 @@ The program implements the [Edmonds-Karp algorithm](https://en.wikipedia.org/wik
 Graph file should be in [DIMACS format](http://lpsolve.sourceforge.net/5.5/DIMACS_maxf.htm) for networks. See the `tst` directory for test cases. Running the first test case, we get the following output.
 
 ```text
-$ python3 max_flow.py -f tst/network_0.txt
+$ python3 main.py -f tst/network_0.txt
 Received network with 6 nodes and 9 arcs.
 Maximum flow = 10
 0 -> 1 : 7 / 7
