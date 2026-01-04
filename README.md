@@ -9,6 +9,7 @@ Usage: main.py [OPTIONS]
 
 Options:
   -f, --filename FILE  Path to flow network specification.  [required]
+  -v, --verbose        Set verbosity of solving process.
   --help               Show this message and exit.
 ```
 

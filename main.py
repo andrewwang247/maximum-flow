@@ -14,8 +14,11 @@ from parse import create_network
 @option('--filename', '-f', required=True,
         type=Path(exists=True, file_okay=True, dir_okay=False, readable=True),
         help='Path to flow network specification.')
-def main(filename: str):
+@option('--verbose', '-v', is_flag=True, default=False,
+        help='Set verbosity of solving process.')
+def main(filename: str, verbose: bool):
     """Compute maximum flow on flow network."""
+    logging.basicConfig(level=logging.INFO if verbose else logging.WARN)
     network = create_network(filename)
     max_flow, flow_matrix = network.maximum_flow()
     print(f'Maximum flow = {max_flow}')
@@ -27,5 +30,4 @@ def main(filename: str):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARN)
     main()

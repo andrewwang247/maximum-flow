@@ -20,7 +20,7 @@ class FlowNetwork:
         assert 0 <= sink < vertices, f'Sink {sink} is out of bounds.'
         assert source != sink, 'Source and sink cannot be the same vertex.'
         logger.info(
-            'Constructed network with %d vertices flowing from %d to %d',
+            'Initialized network with %d vertices flowing from %d to %d',
             vertices,
             source,
             sink)
