@@ -15,7 +15,7 @@ Options:
 
 ## Algorithm
 
-The program implements the [Edmonds-Karp algorithm](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm), which is based on the [Ford-Fulkerson method](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm). The network capacity and resultant maximum flow are represented as numpy matrices of shape $(|V|, |V|)$.
+The program implements the [Edmonds-Karp algorithm](https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm), which is based on the [Ford-Fulkerson method](https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm). The network capacity and resultant maximum flow for a graph *G* = (*V*, *E*) are represented as numpy matrices of shape (|*V*|, |*V*|).
 
 ## File Format
 

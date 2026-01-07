@@ -7,6 +7,7 @@ import logging
 from typing import Tuple, List, Optional
 from collections import deque
 import numpy as np
+import numpy.typing as npt
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class FlowNetwork:
         logger.info('Adding edge %d -> %d with capacity %d', src, dst, cap)
         self.capacity[src, dst] = cap
 
-    def maximum_flow(self) -> Tuple[int, np.ndarray]:
+    def maximum_flow(self) -> Tuple[int, npt.NDArray[np.int_]]:
         """Compute maximum flow on the network and flow matrix."""
         max_flow = 0
         flow = np.zeros((self.vertices, self.vertices), dtype=int)
@@ -60,7 +61,7 @@ class FlowNetwork:
                 flow[src, dst] += new_flow
                 flow[dst, src] -= new_flow
 
-    def _gen_path(self, predecessor: np.ndarray) -> List[int]:
+    def _gen_path(self, predecessor: npt.NDArray[np.int_]) -> List[int]:
         """Return the path source -> sink given by predecessor list."""
         next_vertex = self.sink
         path: List[int] = []
@@ -71,7 +72,7 @@ class FlowNetwork:
         path.reverse()
         return path
 
-    def _find_augmenting_path(self, flow: np.ndarray) \
+    def _find_augmenting_path(self, flow: npt.NDArray[np.int_]) \
             -> Optional[Tuple[int, List[int]]]:
         """Return augmenting path and new flow or None if non-existent."""
         residual = self.capacity - flow
