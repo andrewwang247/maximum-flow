@@ -4,22 +4,33 @@ Pytest to run unit tests.
 Copyright 2026. Andrew Wang.
 """
 from os import path
-from typing import List, Tuple
+from typing import Iterable, Tuple
 from pytest import mark
 import numpy as np
 from parse import create_network
 
+EXPECTED_FLOWS = [
+    10,     # network_0
+    5,      # network_1
+    7,      # network_2
+    6,      # network_3
+    15,     # network_4
+    6,      # network_5
+    23,     # network_6
+    7,      # network_7
+]
 
-def _get_tests(solutions: List[int]) -> List[Tuple[str, int]]:
+
+def _get_tests() -> Iterable[Tuple[str, int]]:
     """Get parametrized tests for pytest."""
-    files: List[str] = [path.join('tst', f'network_{idx}.txt')
-                        for idx in range(len(solutions))]
-    assert all(path.isfile(filename) for filename in files)
-    assert all(solution > 0 for solution in solutions)
-    return list(zip(files, solutions))
+    for idx, solution in enumerate(EXPECTED_FLOWS):
+        fname = path.join('tst', f'network_{idx}.txt')
+        assert path.isfile(fname), \
+            f'Test file {fname} does not exist'
+        yield fname, solution
 
 
-@mark.parametrize('filename,expected_max', _get_tests([10, 5, 7, 6, 15]))
+@mark.parametrize('filename,expected_max', _get_tests())
 def test_flow(filename: str, expected_max: int):
     """Test network flow on filename."""
     network = create_network(filename)

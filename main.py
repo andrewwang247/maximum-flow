@@ -18,7 +18,7 @@ from parse import create_network
         help='Set verbosity of solving process.')
 def main(filename: str, verbose: bool):
     """Compute maximum flow on flow network."""
-    logging.basicConfig(level=logging.INFO if verbose else logging.WARN)
+    logging.basicConfig(level=logging.DEBUG if verbose else logging.WARN)
     network = create_network(filename)
     max_flow, flow_matrix = network.maximum_flow()
     print(f'Maximum flow = {max_flow}')

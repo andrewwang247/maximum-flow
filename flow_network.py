@@ -21,7 +21,7 @@ class FlowNetwork:
         assert 0 <= sink < vertices, f'Sink {sink} is out of bounds.'
         assert source != sink, 'Source and sink cannot be the same vertex.'
         logger.info(
-            'Initialized network with %d vertices flowing from %d to %d',
+            'Initialized network with %d nodes flowing from %d to %d',
             vertices,
             source,
             sink)
@@ -40,7 +40,7 @@ class FlowNetwork:
             f'Capacity of {src} -> {dst} has already been assigned.'
         assert self.capacity[dst, src] == 0, \
             f'Reverse capacity of {dst} -> {src} is non-zero.'
-        logger.info('Adding edge %d -> %d with capacity %d', src, dst, cap)
+        logger.info('Adding arc %d -> %d with capacity %d', src, dst, cap)
         self.capacity[src, dst] = cap
 
     def maximum_flow(self) -> Tuple[int, npt.NDArray[np.int_]]:
