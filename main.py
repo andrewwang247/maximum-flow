@@ -6,7 +6,7 @@ Copyright 2026. Andrew Wang.
 import logging
 import numpy as np
 from click import command, option, Path
-from parse import create_network
+from src import create_network
 # pylint: disable=no-value-for-parameter
 
 

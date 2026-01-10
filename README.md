@@ -50,7 +50,7 @@ c The first 2 numbers are the start and end node of this arc.
 c The 3rd number is the flow capacity of this arc.
 ```
 
-See the `tst` directory for more examples.
+See the `test` directory for more examples.
 
 ## Output
 
@@ -81,4 +81,4 @@ The output line `u -> v : f / c` should be interpreted as saying that the arc fr
 
 ## Testing
 
-Run `pytest` to test the program on all `tst/network_*.txt` inputs. All properties of a valid flow are verified and the maximum flow rate is checked against the known solution.
+Run `pytest` to test the flow that is generated on every `test/network_*.txt` input. All properties of a valid flow are verified and the maximum flow rate is checked against the known solution.

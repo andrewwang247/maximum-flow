@@ -4,7 +4,7 @@ Parse DIMACS networks.
 Copyright 2026. Andrew Wang.
 """
 from typing import List, TextIO
-from flow_network import FlowNetwork
+from .flow_network import FlowNetwork
 
 
 def _is_statement(line: str) -> bool:

@@ -6,7 +6,7 @@
 set -Euo pipefail
 
 # List of all Python files.
-pyfiles="*.py"
+pyfiles=$(find . -name "*.py" -type f -not -path "./env/*");
 
 printf "Running autopep...\n\n"
 autopep8 -i -a -a $pyfiles

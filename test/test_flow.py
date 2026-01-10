@@ -4,27 +4,22 @@ Pytest to run unit tests.
 Copyright 2026. Andrew Wang.
 """
 from os import path
-from typing import Iterable, Tuple
+from json import load
+from typing import Dict, Iterable, Tuple
 from pytest import mark
 import numpy as np
-from parse import create_network
+from src import create_network
 
-EXPECTED_FLOWS = [
-    10,     # network_0
-    5,      # network_1
-    7,      # network_2
-    6,      # network_3
-    15,     # network_4
-    6,      # network_5
-    23,     # network_6
-    7,      # network_7
-]
+_TEST_DIR = 'test'
 
 
 def _get_tests() -> Iterable[Tuple[str, int]]:
     """Get parametrized tests for pytest."""
-    for idx, solution in enumerate(EXPECTED_FLOWS):
-        fname = path.join('tst', f'network_{idx}.txt')
+    with open(path.join(_TEST_DIR, 'answers.json'),
+              encoding='UTF-8') as fp:
+        answers: Dict[str, int] = load(fp)
+    for network, solution in answers.items():
+        fname = path.join(_TEST_DIR, f'{network}.txt')
         assert path.isfile(fname), \
             f'Test file {fname} does not exist'
         yield fname, solution
