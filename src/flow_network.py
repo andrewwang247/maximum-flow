@@ -47,11 +47,8 @@ class FlowNetwork:
         """Compute maximum flow on the network and flow matrix."""
         max_flow = 0
         flow = np.zeros((self.vertices, self.vertices), dtype=int)
-        while True:
-            optional_return = self._find_augmenting_path(flow)
-            if optional_return is None:
-                return max_flow, flow
-            new_flow, path = optional_return
+        while (opt_path := self._find_augmenting_path(flow)) is not None:
+            new_flow, path = opt_path
             logger.info(
                 'Found path %s that augments flow by %d',
                 path,
@@ -60,14 +57,14 @@ class FlowNetwork:
             for src, dst in zip(path, path[1:]):
                 flow[src, dst] += new_flow
                 flow[dst, src] -= new_flow
+        return max_flow, flow
 
     def _gen_path(self, predecessor: npt.NDArray[np.int_]) -> List[int]:
         """Return the path source -> sink given by predecessor list."""
+        path = [self.sink]
         next_vertex = self.sink
-        path: List[int] = []
-        while next_vertex != self.source:
+        while (next_vertex := predecessor[next_vertex]) != self.source:
             path.append(int(next_vertex))
-            next_vertex = predecessor[next_vertex]
         path.append(self.source)
         path.reverse()
         return path
@@ -79,7 +76,7 @@ class FlowNetwork:
         queue = deque((self.source,))
         predecessor = np.full(self.vertices, -1, dtype=int)
         while queue:
-            current: int = queue.popleft()
+            current = queue.popleft()
             unvisited = filter(
                 lambda vert: predecessor[vert] == -1, range(self.vertices)
             )
