@@ -3,7 +3,7 @@
 # Copyright 2026. Andrew Wang.
 # Run static checks on all Python code.
 
-set -Euo pipefail
+set -uo pipefail
 
 # List of all Python files.
 pyfiles=$(find . -name "*.py" -type f -not -path "./env/*");
