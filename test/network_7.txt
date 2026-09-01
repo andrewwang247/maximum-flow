@@ -1,0 +1,26 @@
+c Network has 12 nodes and 20 arcs
+p max 12 20
+c Source at 0 and sink at 5
+n 0 s
+n 11 t
+c Maximum flow is 7
+a 0 1 1
+a 0 2 1
+a 0 3 1
+a 0 4 1
+a 0 5 1
+a 0 6 1
+a 0 7 1
+a 1 8 1
+a 1 9 1
+a 2 8 1
+a 3 10 1
+a 4 8 1
+a 4 10 1
+a 5 10 1
+a 6 9 1
+a 6 10 1
+a 7 8 1
+a 8 11 4
+a 9 11 2
+a 10 11 4
