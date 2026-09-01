@@ -1,0 +1,33 @@
+[project]
+name = "maximum-flow"
+version = "0.1.0"
+description = "Compute maximum flow on a flow network."
+authors = [{ name = "Andrew Wang", email = "siweiw9@gmail.com" }]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.14"
+dependencies = ["click", "numpy"]
+
+[project.optional-dependencies]
+dev = ["mypy", "ruff", "pytest"]
+
+[project.urls]
+Repository = "https://github.com/andrewwang247/maximum-flow"
+
+[tool.ruff]
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["COM812", "PLR2004", "S101", "T201"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+strict = true
+
+[tool.pytest]
+addopts = ["-ra", "--strict-markers"]
+testpaths = ["test"]
