@@ -12,8 +12,6 @@ from click import command, option
 
 from src import create_network
 
-# pylint: disable=no-value-for-parameter
-
 
 @command()
 @option(
