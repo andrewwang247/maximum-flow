@@ -8,9 +8,9 @@ Usage: main.py [OPTIONS]
   Compute maximum flow on flow network.
 
 Options:
-  -f, --filename FILE  Path to flow network specification.  [required]
-  -v, --verbose        Set verbosity of solving process.
-  --help               Show this message and exit.
+  -i, --input_file FILENAME  Path to flow network specification.  [required]
+  -v, --verbose              Set verbosity of solving process.
+  --help                     Show this message and exit.
 ```
 
 ## File Format
