@@ -5,11 +5,11 @@
 
 set -uo pipefail
 
-printf "Running ruff format...\n"
-ruff format .
-
 printf "Running ruff check...\n"
 ruff check --fix .
+
+printf "Running ruff format...\n"
+ruff format .
 
 printf "Running mypy...\n"
 mypy .
