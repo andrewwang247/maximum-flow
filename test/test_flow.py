@@ -30,7 +30,7 @@ def _get_tests() -> list[tuple[Path, int]]:
 @pytest.mark.parametrize(("filepath", "expected_max"), _get_tests())
 def test_flow(filepath: Path, expected_max: int) -> None:
     """Test network flow on filename."""
-    network = create_network(filepath)
+    network = create_network(filepath.open(encoding="UTF-8"))
     max_flow, flow = network.maximum_flow()
     assert max_flow == expected_max, "Max flow is incorrect."
     assert np.array_equal(np.transpose(flow), -flow), "Flow is not skew symmetric"
