@@ -8,9 +8,11 @@ from collections import deque
 from itertools import pairwise
 
 import numpy as np
-import numpy.typing as npt
 
 logger = logging.getLogger(__name__)
+
+type IntArr = np.ndarray[tuple[int], np.dtype[np.int_]]
+type IntGrid = np.ndarray[tuple[int, int], np.dtype[np.int_]]
 
 
 class FlowNetwork:
@@ -46,7 +48,7 @@ class FlowNetwork:
         logger.info("Adding arc %d -> %d with capacity %d", src, dst, cap)
         self.capacity[src, dst] = cap
 
-    def maximum_flow(self) -> tuple[int, npt.NDArray[np.int_]]:
+    def maximum_flow(self) -> tuple[int, IntGrid]:
         """Compute maximum flow on the network and flow matrix."""
         max_flow = 0
         flow = np.zeros((self.vertices, self.vertices), dtype=int)
@@ -59,7 +61,7 @@ class FlowNetwork:
                 flow[dst, src] -= new_flow
         return max_flow, flow
 
-    def _gen_path(self, predecessor: npt.NDArray[np.int_]) -> list[int]:
+    def _gen_path(self, predecessor: IntArr) -> list[int]:
         """Return the path source -> sink given by predecessor list."""
         path = [self.sink]
         next_vertex = self.sink
@@ -71,7 +73,7 @@ class FlowNetwork:
 
     def _find_augmenting_path(
         self,
-        flow: npt.NDArray[np.int_],
+        flow: IntGrid,
     ) -> tuple[int, list[int]] | None:
         """Return augmenting path and new flow or None if non-existent."""
         residual = self.capacity - flow
