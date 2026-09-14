@@ -32,7 +32,7 @@ class FlowNetwork:
         self.vertices = vertices
         self.source = source
         self.sink = sink
-        self.capacity = np.zeros((vertices, vertices), dtype=int)
+        self.capacity = np.zeros((vertices, vertices), dtype=np.int_)
 
     def add_edge(self, src: int, dst: int, cap: int) -> None:
         """Add a directed edge src -> dst with the given capacity."""
@@ -51,7 +51,7 @@ class FlowNetwork:
     def maximum_flow(self) -> tuple[int, IntGrid]:
         """Compute maximum flow on the network and flow matrix."""
         max_flow = 0
-        flow = np.zeros((self.vertices, self.vertices), dtype=int)
+        flow = np.zeros((self.vertices, self.vertices), dtype=np.int_)
         while opt_path := self._find_augmenting_path(flow):
             new_flow, path = opt_path
             logger.info("Found path %s that augments flow by %d", path, new_flow)
@@ -78,7 +78,7 @@ class FlowNetwork:
         """Return augmenting path and new flow or None if non-existent."""
         residual = self.capacity - flow
         queue = deque((self.source,))
-        predecessor = np.full(self.vertices, -1, dtype=int)
+        predecessor = np.full(self.vertices, -1, dtype=np.int_)
         while queue:
             current = queue.popleft()
             has_flow = (
