@@ -52,7 +52,7 @@ class FlowNetwork:
         """Compute maximum flow on the network and flow matrix."""
         max_flow = 0
         flow = np.zeros((self.vertices, self.vertices), dtype=int)
-        while (opt_path := self._find_augmenting_path(flow)) is not None:
+        while opt_path := self._find_augmenting_path(flow):
             new_flow, path = opt_path
             logger.info("Found path %s that augments flow by %d", path, new_flow)
             max_flow += new_flow
