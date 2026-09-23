@@ -75,9 +75,7 @@ Maximum flow = 15
 2 -> 3 : 10 / 10
 ```
 
-The output line `u -> v : f / c` should be interpreted as saying that the arc from node *u* to node *v* gets flow *f* of its capacity *c*. We solved the max flow for the network below, where *s* is source node 0, *u* is node 1, *v* is node 2, and *t* is sink node 3.
-
-![Example flow network](sample.png)
+The output line `u -> v : f / c` should be interpreted as saying that the arc from node *u* to node *v* gets flow *f* of its capacity *c*.
 
 ## Testing
 
