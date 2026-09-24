@@ -9,16 +9,17 @@ from .flow_network import FlowNetwork
 
 
 def _is_statement(line: str) -> bool:
-    """Determine if the line is a statament."""
-    return len(line) > 0 and not line.startswith("c")
+    """Determine if the line is a statement."""
+    assert line, "Reached EOF while parsing lines"
+    stripped = line.strip()
+    return len(stripped) > 0 and not stripped.startswith("c")
 
 
 def _get_next_line(fin: TextIO) -> list[str]:
     """Get the next non-comment line from file."""
-    line = fin.readline().strip()
-    while not _is_statement(line):
-        line = fin.readline().strip()
-    return line.split()
+    while not _is_statement(line := fin.readline()):
+        pass
+    return line.strip().split()
 
 
 def create_network(fin: TextIO) -> FlowNetwork:
@@ -44,11 +45,10 @@ def create_network(fin: TextIO) -> FlowNetwork:
 
     network = FlowNetwork(nodes, source, sink)
     num_arcs = 0
-    for raw_line in fin:
-        line = raw_line.strip()
+    for line in fin:
         if not _is_statement(line):
             continue
-        tokens = line.split()
+        tokens = line.strip().split()
         assert tokens[0] == "a", 'Arc statements begin with "a"'
         assert len(tokens) == 4, "Arc statements require 3 values."
         network.add_edge(*[int(token) for token in tokens[1:]])

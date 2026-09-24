@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 type IntArr = np.ndarray[tuple[int], np.dtype[np.int_]]
 type IntGrid = np.ndarray[tuple[int, int], np.dtype[np.int_]]
 
+_UNVISITED = -1
+
 
 class FlowNetwork:
     """Representation of flow network."""
@@ -78,22 +80,20 @@ class FlowNetwork:
         """Return augmenting path and new flow or None if non-existent."""
         residual = self.capacity - flow
         queue = deque((self.source,))
-        predecessor = np.full(self.vertices, -1, dtype=np.int_)
+        predecessor = np.full(self.vertices, _UNVISITED, dtype=np.int_)
         while queue:
             current = queue.popleft()
             has_flow = (
                 vert
                 for vert in range(self.vertices)
-                if predecessor[vert] == -1  # unvisited
-                and residual[current, vert] > 0
+                if predecessor[vert] == _UNVISITED and residual[current, vert] > 0
             )
             for vert in has_flow:
                 predecessor[vert] = current
-                if vert == self.sink:
-                    path = self._gen_path(predecessor)
-                    new_flow: int = min(
-                        residual[src, dst] for src, dst in pairwise(path)
-                    )
-                    return new_flow, path
-                queue.append(vert)
+                if vert != self.sink:
+                    queue.append(vert)
+                    continue
+                path = self._gen_path(predecessor)
+                new_flow = min(residual[src, dst] for src, dst in pairwise(path))
+                return new_flow, path
         return None
