@@ -54,19 +54,19 @@ See the `resources` directory for more examples.
 
 ## Output
 
-Running the example input above, we get:
+Saving the example above to `sample.txt`, we run:
 
-```text
-$ python3 main.py -f sample.txt -v
-INFO:flow_network:Initialized network with 4 nodes flowing from 0 to 3
-INFO:flow_network:Adding arc 0 -> 1 with capacity 10
-INFO:flow_network:Adding arc 1 -> 3 with capacity 5
-INFO:flow_network:Adding arc 0 -> 2 with capacity 5
-INFO:flow_network:Adding arc 2 -> 3 with capacity 10
-INFO:flow_network:Adding arc 1 -> 2 with capacity 15
-INFO:flow_network:Found path [0, 1, 3] that augments flow by 5
-INFO:flow_network:Found path [0, 2, 3] that augments flow by 5
-INFO:flow_network:Found path [0, 1, 2, 3] that augments flow by 5
+```console
+$ python3 main.py -i sample.txt -v
+INFO:src.flow_network:Initialized network with 4 nodes flowing from 0 to 3
+INFO:src.flow_network:Adding arc 0 -> 1 with capacity 10
+INFO:src.flow_network:Adding arc 1 -> 3 with capacity 5
+INFO:src.flow_network:Adding arc 0 -> 2 with capacity 5
+INFO:src.flow_network:Adding arc 2 -> 3 with capacity 10
+INFO:src.flow_network:Adding arc 1 -> 2 with capacity 15
+INFO:src.flow_network:Found path [0, 1, 3] that augments flow by 5
+INFO:src.flow_network:Found path [0, 2, 3] that augments flow by 5
+INFO:src.flow_network:Found path [0, 1, 2, 3] that augments flow by 5
 Maximum flow = 15
 0 -> 1 : 10 / 10
 0 -> 2 : 5 / 5
