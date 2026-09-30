@@ -14,11 +14,11 @@ from src import create_network
 
 @command()
 @option(
-    "--input_file",
+    "--input_nw",
     "-i",
     required=True,
-    type=File(encoding="UTF-8"),
-    help="Path to flow network specification.",
+    type=File("r", encoding="UTF-8"),
+    help="Where to read network specification.",
 )
 @option(
     "--verbose",
@@ -27,10 +27,10 @@ from src import create_network
     default=False,
     help="Set verbosity of solving process.",
 )
-def main(input_file: TextIO, *, verbose: bool) -> None:
+def main(input_nw: TextIO, *, verbose: bool) -> None:
     """Compute maximum flow on flow network."""
     logging.basicConfig(level=logging.DEBUG if verbose else logging.WARNING)
-    network = create_network(input_file)
+    network = create_network(input_nw)
     max_flow, flow_matrix = network.maximum_flow()
     print(f"Maximum flow = {max_flow}")
     dim_1, dim_2 = np.nonzero(network.capacity)
